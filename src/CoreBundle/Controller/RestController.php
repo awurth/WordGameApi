@@ -2,6 +2,8 @@
 
 namespace App\CoreBundle\Controller;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Symfony\Component\Form\Form;
@@ -10,6 +12,28 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RestController extends FOSRestController
 {
+    /**
+     * Gets the Doctrine EntityManager.
+     *
+     * @return ObjectManager|object
+     */
+    protected function getEntityManager()
+    {
+        return $this->getDoctrine()->getManager();
+    }
+
+    /**
+     * Gets an Entity repository.
+     *
+     * @param string $className
+     *
+     * @return ObjectRepository
+     */
+    protected function getRepository($className)
+    {
+        return $this->getDoctrine()->getManager()->getRepository($className);
+    }
+
     /**
      * Processes a form.
      *

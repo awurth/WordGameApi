@@ -7,6 +7,16 @@ use Doctrine\ORM\QueryBuilder;
 
 class PaginationRepository extends EntityRepository
 {
+    public function getCollection($perPage = 15, $page = 1, $order = 'asc')
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->orderBy('e.id', $order);
+
+        $qb = $this->paginate($qb, $perPage, $page);
+
+        return $qb->getQuery()->getResult();
+    }
+
     /**
      * Sets limit and offset on a query builder.
      *
