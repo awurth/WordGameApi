@@ -38,6 +38,8 @@ class Game
     /**
      * @var ArrayCollection
      *
+     * @Assert\Count(min=1)
+     *
      * @ORM\ManyToMany(targetEntity="App\GameBundle\Entity\Subject", inversedBy="games")
      * @ORM\JoinTable(name="game_game_subject")
      */
