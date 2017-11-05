@@ -1,0 +1,3 @@
+game_subject:
+    type:     rest
+    resource: App\GameBundle\Controller\SubjectController
