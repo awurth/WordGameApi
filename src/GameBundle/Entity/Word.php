@@ -1,0 +1,138 @@
+<?php
+
+namespace App\GameBundle\Entity;
+
+use App\CoreBundle\Entity\TimestampableTrait;
+use App\UserBundle\Entity\User;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="game_word")
+ * @ORM\Entity(repositoryClass="App\GameBundle\Repository\WordRepository")
+ */
+class Word
+{
+    use TimestampableTrait;
+
+    /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="value", type="string", length=255)
+     */
+    protected $value;
+
+    /**
+     * @var Round
+     *
+     * @ORM\ManyToOne(targetEntity="App\GameBundle\Entity\Round", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $round;
+
+    /**
+     * @var Subject
+     *
+     * @ORM\ManyToOne(targetEntity="App\GameBundle\Entity\Subject", cascade={"persist"})
+     */
+    protected $subject;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $user;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Sets the round.
+     *
+     * @param Round $round
+     *
+     * @return self
+     */
+    public function setRound(Round $round)
+    {
+        $this->round = $round;
+
+        return $this;
+    }
+
+    /**
+     * Gets the round.
+     *
+     * @return Round
+     */
+    public function getRound()
+    {
+        return $this->round;
+    }
+
+    /**
+     * Sets the subject.
+     *
+     * @param Subject $subject
+     *
+     * @return self
+     */
+    public function setSubject(Subject $subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Gets the subject.
+     *
+     * @return Subject
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * Sets the user.
+     *
+     * @param User $user
+     *
+     * @return self
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Gets the user.
+     *
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}
+
