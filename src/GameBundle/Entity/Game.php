@@ -6,6 +6,7 @@ use App\CoreBundle\Entity\TimestampableTrait;
 use App\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="game_game")
@@ -26,6 +27,8 @@ class Game
 
     /**
      * @var User
+     *
+     * @Assert\NotNull
      *
      * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)

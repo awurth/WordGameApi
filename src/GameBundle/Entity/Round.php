@@ -4,6 +4,7 @@ namespace App\GameBundle\Entity;
 
 use App\CoreBundle\Entity\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="game_round")
@@ -25,6 +26,9 @@ class Round
     /**
      * @var string
      *
+     * @Assert\NotBlank
+     * @Assert\Length(max="1")
+     *
      * @ORM\Column(name="letter", type="string", length=255)
      */
     protected $letter;
@@ -38,6 +42,8 @@ class Round
 
     /**
      * @var Game
+     *
+     * @Assert\NotNull
      *
      * @ORM\ManyToOne(targetEntity="App\GameBundle\Entity\Game", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
