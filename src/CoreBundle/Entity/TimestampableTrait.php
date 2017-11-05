@@ -19,13 +19,13 @@ trait TimestampableTrait
     /**
      * @var DateTime
      *
-     * @Gedmo\Timestampable(on="change", field={"username", "email"})
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     protected $updatedAt;
 
     /**
-     * Sets the user creation date.
+     * Sets the creation date.
      *
      * @param DateTime $createdAt
      *
@@ -39,7 +39,7 @@ trait TimestampableTrait
     }
 
     /**
-     * Gets the user creation date.
+     * Gets the creation date.
      *
      * @return DateTime
      */
@@ -49,7 +49,7 @@ trait TimestampableTrait
     }
 
     /**
-     * Sets the user's last update date.
+     * Sets the last update date.
      *
      * @param DateTime $updatedAt
      *
@@ -63,7 +63,7 @@ trait TimestampableTrait
     }
 
     /**
-     * Gets the user's last update date.
+     * Gets the last update date.
      *
      * @return DateTime
      */
