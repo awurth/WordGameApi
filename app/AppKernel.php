@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new App\CoreBundle\CoreBundle(),
             new App\OAuthBundle\OAuthBundle(),
             new App\UserBundle\UserBundle(),
+            new App\GameBundle\GameBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

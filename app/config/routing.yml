@@ -1,3 +1,7 @@
+game:
+    type:     rest
+    resource: "@GameBundle/Resources/config/routing.yml"
+
 core:
     type:     rest
     resource: "@CoreBundle/Resources/config/routing.yml"
