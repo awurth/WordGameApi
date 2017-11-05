@@ -1,0 +1,3 @@
+user_user:
+    type:     rest
+    resource: App\UserBundle\Controller\UserController

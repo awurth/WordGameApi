@@ -1,0 +1,3 @@
+core_home:
+    type:     rest
+    resource: App\CoreBundle\Controller\HomeController

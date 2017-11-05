@@ -1,0 +1,10 @@
+core:
+    type:     rest
+    resource: "@CoreBundle/Resources/config/routing.yml"
+
+user:
+    type:     rest
+    resource: "@UserBundle/Resources/config/routing.yml"
+
+fos_oauth_server_token:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
