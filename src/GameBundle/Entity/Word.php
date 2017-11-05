@@ -5,11 +5,35 @@ namespace App\GameBundle\Entity;
 use App\CoreBundle\Entity\TimestampableTrait;
 use App\UserBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="game_word")
  * @ORM\Entity(repositoryClass="App\GameBundle\Repository\WordRepository")
+ * @ORM\Table(name="game_word")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = @Hateoas\Route(
+ *         "get_word",
+ *         parameters = { "id" = "expr(object.getId())" }
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "subject",
+ *     href = @Hateoas\Route(
+ *         "get_subject",
+ *         parameters = { "id" = "expr(object.getSubject().getId())" }
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "user",
+ *     href = @Hateoas\Route(
+ *         "get_user",
+ *         parameters = { "id" = "expr(object.getUser().getId())" }
+ *     )
+ * )
  */
 class Word
 {
@@ -40,6 +64,8 @@ class Word
      *
      * @ORM\ManyToOne(targetEntity="App\GameBundle\Entity\Round", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Exclude
      */
     protected $round;
 
@@ -49,6 +75,8 @@ class Word
      * @Assert\NotNull
      *
      * @ORM\ManyToOne(targetEntity="App\GameBundle\Entity\Subject", cascade={"persist"})
+     *
+     * @JMS\Exclude
      */
     protected $subject;
 
@@ -59,6 +87,8 @@ class Word
      *
      * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Exclude
      */
     protected $user;
 

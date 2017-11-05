@@ -4,11 +4,28 @@ namespace App\GameBundle\Entity;
 
 use App\CoreBundle\Entity\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="game_round")
  * @ORM\Entity(repositoryClass="App\GameBundle\Repository\RoundRepository")
+ * @ORM\Table(name="game_round")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = @Hateoas\Route(
+ *         "get_round",
+ *         parameters = { "id" = "expr(object.getId())" }
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "game",
+ *     href = @Hateoas\Route(
+ *         "get_game",
+ *         parameters = { "id" = "expr(object.getGame().getId())" }
+ *     )
+ * )
  */
 class Round
 {
@@ -47,6 +64,8 @@ class Round
      *
      * @ORM\ManyToOne(targetEntity="App\GameBundle\Entity\Game", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Exclude
      */
     protected $game;
 

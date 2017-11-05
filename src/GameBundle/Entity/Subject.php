@@ -7,11 +7,21 @@ use App\CoreBundle\Entity\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="game_subject")
  * @ORM\Entity(repositoryClass="App\GameBundle\Repository\SubjectRepository")
+ * @ORM\Table(name="game_subject")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = @Hateoas\Route(
+ *         "get_subject",
+ *         parameters = { "id" = "expr(object.getId())" }
+ *     )
+ * )
  */
 class Subject
 {
@@ -49,6 +59,8 @@ class Subject
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="App\GameBundle\Entity\Game", mappedBy="subjects")
+     *
+     * @JMS\Exclude
      */
     protected $games;
 

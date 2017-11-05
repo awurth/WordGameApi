@@ -6,11 +6,28 @@ use App\CoreBundle\Entity\TimestampableTrait;
 use App\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="game_game")
  * @ORM\Entity(repositoryClass="App\GameBundle\Repository\GameRepository")
+ * @ORM\Table(name="game_game")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = @Hateoas\Route(
+ *         "get_game",
+ *         parameters = { "id" = "expr(object.getId())" }
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "creator",
+ *     href = @Hateoas\Route(
+ *         "get_user",
+ *         parameters = { "id" = "expr(object.getCreator().getId())" }
+ *     )
+ * )
  */
 class Game
 {
@@ -32,6 +49,8 @@ class Game
      *
      * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Exclude
      */
     protected $creator;
 
@@ -42,6 +61,8 @@ class Game
      *
      * @ORM\ManyToMany(targetEntity="App\GameBundle\Entity\Subject", inversedBy="games")
      * @ORM\JoinTable(name="game_game_subject")
+     *
+     * @JMS\Exclude
      */
     protected $subjects;
 
@@ -50,6 +71,8 @@ class Game
      *
      * @ORM\ManyToMany(targetEntity="App\UserBundle\Entity\User", inversedBy="games")
      * @ORM\JoinTable(name="game_game_user")
+     *
+     * @JMS\Exclude
      */
     protected $users;
 

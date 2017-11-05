@@ -7,6 +7,7 @@ use App\GameBundle\Entity\Game;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as JMS;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
@@ -36,6 +37,8 @@ class User extends BaseUser
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="App\GameBundle\Entity\Game", mappedBy="users")
+     *
+     * @JMS\Exclude
      */
     protected $games;
 
