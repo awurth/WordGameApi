@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\GameBundle\Repository\RoundRepository")
@@ -62,12 +63,25 @@ class Round
      *
      * @Assert\NotNull
      *
-     * @ORM\ManyToOne(targetEntity="App\GameBundle\Entity\Game", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\GameBundle\Entity\Game", cascade={"persist"}, inversedBy="rounds")
      * @ORM\JoinColumn(nullable=false)
      *
      * @JMS\Exclude
      */
     protected $game;
+
+    /**
+     * @Assert\Callback(groups={"post_round"})
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        foreach ($this->game->getRounds() as $round) {
+            if (!$round->isFinished()) {
+                $context->addViolation('All rounds must be finished to create a new one.');
+                break;
+            }
+        }
+    }
 
     /**
      * Get id

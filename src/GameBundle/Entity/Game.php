@@ -77,12 +77,22 @@ class Game
     protected $users;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\GameBundle\Entity\Round", mappedBy="game")
+     *
+     * @JMS\Exclude
+     */
+    protected $rounds;
+
+    /**
      * Constructor.
      */
     public function __construct()
     {
         $this->subjects = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->rounds = new ArrayCollection();
     }
 
     /**
@@ -193,6 +203,44 @@ class Game
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Adds a round.
+     *
+     * @param Round $round
+     *
+     * @return self
+     */
+    public function addRound(Round $round)
+    {
+        $this->rounds->add($round);
+
+        return $this;
+    }
+
+    /**
+     * Removes a round.
+     *
+     * @param Round $round
+     *
+     * @return self
+     */
+    public function removeRound(Round $round)
+    {
+        $this->rounds->removeElement($round);
+
+        return $this;
+    }
+
+    /**
+     * Gets the rounds.
+     *
+     * @return ArrayCollection
+     */
+    public function getRounds()
+    {
+        return $this->rounds;
     }
 }
 

@@ -5,3 +5,7 @@ game_subject:
 game_game:
     type:     rest
     resource: App\GameBundle\Controller\GameController
+
+game_round:
+    type:     rest
+    resource: App\GameBundle\Controller\RoundController
