@@ -33,15 +33,7 @@ class GameController extends RestController
      */
     public function getGameAction($id)
     {
-        $game = $this->getEntityManager()
-            ->getRepository('GameBundle:Game')
-            ->find($id);
-
-        if (null === $game) {
-            throw $this->createNotFoundException();
-        }
-
-        return $game;
+        return $this->findOrFail('GameBundle:Game', $id);
     }
 
     /**
@@ -64,15 +56,10 @@ class GameController extends RestController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $game = $this->getEntityManager()
-            ->getRepository('GameBundle:Game')
-            ->find($id);
+        /** @var Game $game */
+        $game = $this->findOrFail('GameBundle:Game', $id);
 
-        if (null === $game) {
-            throw $this->createNotFoundException();
-        }
-
-        if ($game->getCreator() !== $this->getUser()) {
+        if ($game->getCreator() !== $this->getUser() && !$this->isAdmin()) {
             throw $this->createAccessDeniedException('Access Denied: This is not your game.');
         }
 
@@ -88,13 +75,10 @@ class GameController extends RestController
 
         $em = $this->getEntityManager();
 
-        $game = $em->getRepository('GameBundle:Game')->find($id);
+        /** @var Game $game */
+        $game = $this->findOrFail('GameBundle:Game', $id);
 
-        if (null === $game) {
-            throw $this->createNotFoundException();
-        }
-
-        if ($game->getCreator() !== $this->getUser()) {
+        if ($game->getCreator() !== $this->getUser() && !$this->isAdmin()) {
             throw $this->createAccessDeniedException('Access Denied: This is not your game.');
         }
 

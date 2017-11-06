@@ -33,15 +33,7 @@ class SubjectController extends RestController
      */
     public function getSubjectAction($id)
     {
-        $subject = $this->getEntityManager()
-            ->getRepository('GameBundle:Subject')
-            ->find($id);
-
-        if (null === $subject) {
-            throw $this->createNotFoundException();
-        }
-
-        return $subject;
+        return $this->findOrFail('GameBundle:Subject', $id);
     }
 
     /**
@@ -49,6 +41,8 @@ class SubjectController extends RestController
      */
     public function postSubjectAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->processForm(new Subject(), $request, SubjectType::class, 'get_subject');
     }
 
@@ -59,13 +53,8 @@ class SubjectController extends RestController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $subject = $this->getEntityManager()
-            ->getRepository('GameBundle:Subject')
-            ->find($id);
-
-        if (null === $subject) {
-            throw $this->createNotFoundException();
-        }
+        /** @var Subject $subject */
+        $subject = $this->findOrFail('GameBundle:Subject', $id);
 
         return $this->processForm($subject, $request, SubjectType::class);
     }
@@ -79,11 +68,8 @@ class SubjectController extends RestController
 
         $em = $this->getEntityManager();
 
-        $subject = $em->getRepository('GameBundle:Subject')->find($id);
-
-        if (null === $subject) {
-            throw $this->createNotFoundException();
-        }
+        /** @var Subject $subject */
+        $subject = $this->findOrFail('GameBundle:Subject', $id);
 
         $em->remove($subject);
         $em->flush();

@@ -33,15 +33,7 @@ class RoundController extends RestController
      */
     public function getRoundAction($id)
     {
-        $round = $this->getEntityManager()
-            ->getRepository('GameBundle:Round')
-            ->find($id);
-
-        if (null === $round) {
-            throw $this->createNotFoundException();
-        }
-
-        return $round;
+        return $this->findOrFail('GameBundle:Round', $id);
     }
 
     /**
@@ -61,13 +53,8 @@ class RoundController extends RestController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $round = $this->getEntityManager()
-            ->getRepository('GameBundle:Round')
-            ->find($id);
-
-        if (null === $round) {
-            throw $this->createNotFoundException();
-        }
+        /** @var Round $round */
+        $round = $this->findOrFail('GameBundle:Round', $id);
 
         return $this->processForm($round, $request, RoundType::class);
     }
@@ -81,11 +68,8 @@ class RoundController extends RestController
 
         $em = $this->getEntityManager();
 
-        $round = $em->getRepository('GameBundle:Round')->find($id);
-
-        if (null === $round) {
-            throw $this->createNotFoundException();
-        }
+        /** @var Round $round */
+        $round = $this->findOrFail('GameBundle:Round', $id);
 
         $em->remove($round);
         $em->flush();

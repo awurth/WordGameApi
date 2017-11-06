@@ -13,6 +13,27 @@ use Symfony\Component\HttpFoundation\Response;
 class RestController extends FOSRestController
 {
     /**
+     * Finds an entity by its id or throws a NotFoundException.
+     *
+     * @param string $repositoryClass
+     * @param mixed  $id
+     *
+     * @return object
+     */
+    protected function findOrFail($repositoryClass, $id)
+    {
+        $entity = $this->getEntityManager()
+            ->getRepository($repositoryClass)
+            ->find($id);
+
+        if (null === $entity) {
+            throw $this->createNotFoundException();
+        }
+
+        return $entity;
+    }
+
+    /**
      * Gets the Doctrine EntityManager.
      *
      * @return ObjectManager|object
@@ -32,6 +53,16 @@ class RestController extends FOSRestController
     protected function getRepository($className)
     {
         return $this->getDoctrine()->getManager()->getRepository($className);
+    }
+
+    /**
+     * Returns whether the currents user is an Admin.
+     *
+     * @return bool
+     */
+    protected function isAdmin()
+    {
+        return $this->isGranted('ROLE_ADMIN');
     }
 
     /**
