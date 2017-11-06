@@ -3,24 +3,12 @@
 namespace App\UserBundle\Controller;
 
 use App\CoreBundle\Controller\RestController;
-use FOS\RestBundle\Controller\Annotations\View;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
-use UserBundle\Entity\User;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 class UserController extends RestController
 {
     /**
-     * @View
-     * @SWG\Response(
-     *     response=200,
-     *     description="Returns all users",
-     *     @SWG\Schema(
-     *         type="array",
-     *         @Model(type=User::class)
-     *     )
-     * )
-     * @SWG\Tag(name="user")
+     * @Rest\View
      */
     public function getUsersAction()
     {
@@ -31,32 +19,10 @@ class UserController extends RestController
     }
 
     /**
-     * @View
-     * @SWG\Response(
-     *     response=200,
-     *     description="Gets a user by it's id",
-     *     @Model(type=User::class)
-     * )
-     * @SWG\Parameter(
-     *     name="id",
-     *     description="The user id",
-     *     in="path",
-     *     type="integer",
-     *     required=true
-     * )
-     * @SWG\Tag(name="user")
+     * @Rest\View
      */
     public function getUserAction($id)
     {
-        $user = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('UserBundle:User')
-            ->find($id);
-
-        if (null === $user) {
-            throw $this->createNotFoundException();
-        }
-
-        return $user;
+        return $this->findOrFail('UserBundle:User', $id);
     }
 }
