@@ -12,8 +12,18 @@ class HomeController extends RestController
     public function getAction()
     {
         return [
-            'oauth' => $this->generateUrl('fos_oauth_server_token'),
-            'users' => $this->generateUrl('get_users')
+            'oauth' => [
+                'access_token' => $this->generateUrl('fos_oauth_server_token')
+            ],
+            'user' => [
+                'users' => $this->generateUrl('get_users')
+            ],
+            'game' => [
+                'subjects' => $this->generateUrl('get_subjects'),
+                'games'    => $this->generateUrl('get_games'),
+                'rounds'   => $this->generateUrl('get_rounds'),
+                'words'    => $this->generateUrl('get_words')
+            ]
         ];
     }
 }
