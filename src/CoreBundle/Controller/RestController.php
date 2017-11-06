@@ -44,9 +44,13 @@ class RestController extends FOSRestController
      *
      * @return View|Form|null
      */
-    protected function processForm($entity, Request $request, $formType, $redirectRoute = null)
+    protected function processForm($entity, Request $request, $formType, $redirectRoute = null, array $options = [])
     {
-        $form = $this->createForm($formType, $entity, ['method' => $request->getMethod()]);
+        if (!isset($options['method'])) {
+            $options['method'] = $request->getMethod();
+        }
+
+        $form = $this->createForm($formType, $entity, $options);
 
         $form->handleRequest($request);
 
