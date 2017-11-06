@@ -13,24 +13,9 @@ class SubjectController extends RestController
 {
     /**
      * @Rest\View
-     * @Rest\QueryParam(
-     *     name="order",
-     *     requirements="asc|desc",
-     *     default="asc",
-     *     description="Sort order (asc or desc)"
-     * )
-     * @Rest\QueryParam(
-     *     name="page",
-     *     requirements="\d+",
-     *     default="1",
-     *     description="The current page"
-     * )
-     * @Rest\QueryParam(
-     *     name="per_page",
-     *     requirements="\d+",
-     *     default="15",
-     *     description="Max number of subjects per page"
-     * )
+     * @Rest\QueryParam(name="order", requirements="asc|desc", default="asc")
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1")
+     * @Rest\QueryParam(name="per_page", requirements="\d+", default="15")
      */
     public function getSubjectsAction(ParamFetcher $params)
     {
