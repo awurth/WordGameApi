@@ -9,3 +9,7 @@ game_game:
 game_round:
     type:     rest
     resource: App\GameBundle\Controller\RoundController
+
+game_word:
+    type:     rest
+    resource: App\GameBundle\Controller\WordController

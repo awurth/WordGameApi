@@ -21,6 +21,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     )
  * )
  * @Hateoas\Relation(
+ *     "round",
+ *     href = @Hateoas\Route(
+ *         "get_round",
+ *         parameters = { "id" = "expr(object.getRound().getId())" }
+ *     )
+ * )
+ * @Hateoas\Relation(
  *     "subject",
  *     href = @Hateoas\Route(
  *         "get_subject",
@@ -100,6 +107,30 @@ class Word
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Sets the value.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value.
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 
     /**
