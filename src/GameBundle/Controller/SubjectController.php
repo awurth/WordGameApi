@@ -57,6 +57,8 @@ class SubjectController extends RestController
      */
     public function putSubjectAction($id, Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $subject = $this->getEntityManager()
             ->getRepository('GameBundle:Subject')
             ->find($id);
@@ -73,6 +75,8 @@ class SubjectController extends RestController
      */
     public function deleteSubjectAction($id)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $em = $this->getEntityManager();
 
         $subject = $em->getRepository('GameBundle:Subject')->find($id);
