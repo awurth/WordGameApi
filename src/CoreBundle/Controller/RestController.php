@@ -48,7 +48,9 @@ class RestController extends FOSRestController
     {
         $form = $this->createForm($formType, $entity, ['method' => $request->getMethod()]);
 
-        if ($form->handleRequest($request)->isValid()) {
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($entity);
