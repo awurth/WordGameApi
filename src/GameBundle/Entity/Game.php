@@ -43,6 +43,16 @@ class Game
     protected $id;
 
     /**
+     * @var string
+     *
+     * @Assert\NotBlank
+     * @Assert\Length(max=50)
+     *
+     * @ORM\Column(name="name", type="string", length=50)
+     */
+    protected $name;
+
+    /**
      * @var User
      *
      * @Assert\NotNull
@@ -58,8 +68,9 @@ class Game
      * @var ArrayCollection
      *
      * @Assert\Count(min=1)
+     * @Assert\Valid
      *
-     * @ORM\ManyToMany(targetEntity="App\GameBundle\Entity\Subject", inversedBy="games")
+     * @ORM\ManyToMany(targetEntity="App\GameBundle\Entity\Subject", cascade={"persist", "remove"}, inversedBy="games")
      * @ORM\JoinTable(name="game_game_subject")
      *
      * @JMS\Exclude
@@ -96,13 +107,37 @@ class Game
     }
 
     /**
-     * Get id
+     * Gets the id.
      *
      * @return int
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Sets the name.
+     *
+     * @param string $name
+     *
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets the name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
