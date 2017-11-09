@@ -1,14 +1,16 @@
 <?php
 
-namespace App\UserBundle\DataFixtures\ORM;
+namespace App\OAuthBundle\DataFixtures\ORM;
 
+use App\GameBundle\Entity\Game;
+use App\GameBundle\Entity\Subject;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadGameData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -28,13 +30,18 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
      */
     public function load(ObjectManager $manager)
     {
-        $manipulator = $this->container->get('fos_user.util.user_manipulator');
+        $game = new Game();
+        $game->setName('Fixture Game');
+        $game->setCreator($this->getReference('user'));
 
-        $admin = $manipulator->create('admin', 'admin', 'admin@domain.com', true, true);
-        $user = $manipulator->create('awurth', 'awurth', 'awurth@domain.com', true, false);
+        $game->addSubject((new Subject())->setName('Animal'));
+        $game->addSubject((new Subject())->setName('First name'));
+        $game->addSubject((new Subject())->setName('Anatomy'));
 
-        $this->addReference('admin', $admin);
-        $this->addReference('user', $user);
+        $manager->persist($game);
+        $manager->flush();
+
+        $this->addReference('game', $game);
     }
 
     /**
@@ -42,6 +49,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
      */
     public function getOrder()
     {
-        return 1;
+        return 2;
     }
 }
