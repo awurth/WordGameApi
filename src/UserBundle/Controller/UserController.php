@@ -25,4 +25,15 @@ class UserController extends RestController
     {
         return $this->findOrFail('UserBundle:User', $id);
     }
+
+    /**
+     * @Rest\Get(path="/user")
+     * @Rest\View
+     */
+    public function getCurrentUserAction()
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        return $this->getUser();
+    }
 }
