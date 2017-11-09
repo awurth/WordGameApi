@@ -12,4 +12,25 @@ use App\CoreBundle\Repository\PaginationRepository;
  */
 class GameRepository extends PaginationRepository
 {
+    /**
+     * Gets a paginated list of games of the given user.
+     *
+     * @param mixed  $id
+     * @param int    $perPage
+     * @param int    $page
+     * @param string $order
+     *
+     * @return array
+     */
+    public function getByUser($id, $perPage = 15, $page = 1, $order = 'asc')
+    {
+        $qb = $this->createQueryBuilder('g')
+            ->where('g.creator = :creatorId')
+            ->setParameter('creatorId', $id)
+            ->orderBy('g.id', $order);
+
+        $qb = $this->paginate($qb, $perPage, $page);
+
+        return $qb->getQuery()->getResult();
+    }
 }
