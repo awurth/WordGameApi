@@ -12,6 +12,8 @@ class UserController extends RestController
      */
     public function getUsersAction()
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->getDoctrine()
             ->getManager()
             ->getRepository('UserBundle:User')
@@ -23,6 +25,8 @@ class UserController extends RestController
      */
     public function getUserAction($id)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->findOrFail('UserBundle:User', $id);
     }
 
