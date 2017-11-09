@@ -40,4 +40,24 @@ class UserController extends RestController
 
         return $this->getUser();
     }
+
+    /**
+     * @Rest\Get(path="/user/hasrole/{role}")
+     * @Rest\View
+     */
+    public function getHasRoleAction($role)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if (empty($role)) {
+            return false;
+        }
+
+        $role = strtoupper($role);
+        if (0 !== strpos($role, 'ROLE_')) {
+            $role = 'ROLE_' . $role;
+        }
+
+        return $this->isGranted($role);
+    }
 }
