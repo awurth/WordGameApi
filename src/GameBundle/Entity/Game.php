@@ -72,8 +72,6 @@ class Game
      *
      * @ORM\ManyToMany(targetEntity="App\GameBundle\Entity\Subject", cascade={"persist", "remove"}, inversedBy="games")
      * @ORM\JoinTable(name="game_game_subject")
-     *
-     * @JMS\Exclude
      */
     protected $subjects;
 
