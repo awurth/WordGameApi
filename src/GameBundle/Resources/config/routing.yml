@@ -15,6 +15,11 @@ game_word:
     resource: App\GameBundle\Controller\WordController
 
 game_user_game:
-    type: rest
-    parent: user_user
+    type:     rest
+    parent:   user_user
     resource: App\GameBundle\Controller\UserGameController
+
+game_game_round:
+    type:     rest
+    parent:   game_game
+    resource: App\GameBundle\Controller\GameRoundController

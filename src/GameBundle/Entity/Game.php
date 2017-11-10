@@ -23,6 +23,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         parameters = { "id" = "expr(object.getId())" }
  *     )
  * )
+ * @Hateoas\Relation(
+ *     "rounds",
+ *     href = @Hateoas\Route(
+ *         "get_game_rounds",
+ *         parameters = { "id" = "expr(object.getId())" }
+ *     )
+ * )
  */
 class Game
 {
