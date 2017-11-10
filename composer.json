@@ -1,6 +1,6 @@
 {
-    "name": "awurth/community",
-    "description": "Community website",
+    "name": "awurth/word-game-api",
+    "description": "Word Game",
     "license": "MIT",
     "type": "project",
     "autoload": {
@@ -14,7 +14,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests"
         },
         "files": [
             "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
