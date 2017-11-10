@@ -42,7 +42,7 @@ class UserController extends RestController
     }
 
     /**
-     * @Rest\Get(path="/user/hasrole/{role}")
+     * @Rest\Get(path="/user/role/{role}")
      * @Rest\View
      */
     public function getHasRoleAction($role)
@@ -50,7 +50,7 @@ class UserController extends RestController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         if (empty($role)) {
-            return false;
+            throw $this->createNotFoundException();
         }
 
         $role = strtoupper($role);
@@ -58,6 +58,10 @@ class UserController extends RestController
             $role = 'ROLE_' . $role;
         }
 
-        return $this->isGranted($role);
+        if (!$this->isGranted($role)) {
+            throw $this->createNotFoundException();
+        }
+
+        return null;
     }
 }
