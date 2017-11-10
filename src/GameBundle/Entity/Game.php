@@ -2,10 +2,12 @@
 
 namespace App\GameBundle\Entity;
 
+use App\CoreBundle\Entity\SluggableTrait;
 use App\CoreBundle\Entity\TimestampableTrait;
 use App\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,16 +23,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         parameters = { "id" = "expr(object.getId())" }
  *     )
  * )
- * @Hateoas\Relation(
- *     "creator",
- *     href = @Hateoas\Route(
- *         "get_user",
- *         parameters = { "id" = "expr(object.getCreator().getId())" }
- *     )
- * )
  */
 class Game
 {
+    use SluggableTrait;
     use TimestampableTrait;
 
     /**
@@ -41,6 +37,14 @@ class Game
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var string
+     *
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    protected $slug;
 
     /**
      * @var string
@@ -59,8 +63,6 @@ class Game
      *
      * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
-     *
-     * @JMS\Exclude
      */
     protected $creator;
 
