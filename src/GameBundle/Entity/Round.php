@@ -3,6 +3,7 @@
 namespace App\GameBundle\Entity;
 
 use App\CoreBundle\Entity\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation as JMS;
@@ -71,14 +72,33 @@ class Round
     protected $game;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\GameBundle\Entity\Word", cascade={"persist", "remove"}, mappedBy="round")
+     *
+     * @JMS\Exclude
+     */
+    protected $words;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->words = new ArrayCollection();
+    }
+
+    /**
      * @Assert\Callback(groups={"post_round"})
      */
     public function validate(ExecutionContextInterface $context)
     {
-        foreach ($this->game->getRounds() as $round) {
-            if (!$round->isFinished()) {
-                $context->addViolation('All rounds must be finished to create a new one.');
-                break;
+        if (null !== $this->game) {
+            foreach ($this->game->getRounds() as $round) {
+                if (!$round->isFinished()) {
+                    $context->addViolation('All rounds must be finished to create a new one.');
+                    break;
+                }
             }
         }
     }
@@ -163,6 +183,45 @@ class Round
     public function getGame()
     {
         return $this->game;
+    }
+
+    /**
+     * Adds a word.
+     *
+     * @param Word $word
+     *
+     * @return self
+     */
+    public function addWord(Word $word)
+    {
+        $this->words->add($word);
+        $word->setRound($this);
+
+        return $this;
+    }
+
+    /**
+     * Removes a word.
+     *
+     * @param Word $word
+     *
+     * @return self
+     */
+    public function removeWord(Word $word)
+    {
+        $this->words->removeElement($word);
+
+        return $this;
+    }
+
+    /**
+     * Gets the words.
+     *
+     * @return ArrayCollection
+     */
+    public function getWords()
+    {
+        return $this->words;
     }
 }
 

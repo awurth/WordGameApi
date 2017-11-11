@@ -62,14 +62,14 @@ class Word
      *
      * @ORM\Column(name="value", type="string", length=50)
      */
-    protected $value;
+    protected $value = '';
 
     /**
      * @var Round
      *
      * @Assert\NotNull
      *
-     * @ORM\ManyToOne(targetEntity="App\GameBundle\Entity\Round", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\GameBundle\Entity\Round", cascade={"persist"}, inversedBy="words")
      * @ORM\JoinColumn(nullable=false)
      *
      * @JMS\Exclude
