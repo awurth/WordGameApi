@@ -43,8 +43,10 @@ class GameController extends RestController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+        $user = $this->getUser();
+
         $game = new Game();
-        $game->setCreator($this->getUser());
+        $game->setCreator($user)->addUser($user);
 
         return $this->processForm($game, $request, GameType::class, 'get_game');
     }
